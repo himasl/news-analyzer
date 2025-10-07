@@ -1,0 +1,64 @@
+services:
+  project_name_app:
+    container_name: project_name_app
+    hostname: project_name_app
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: project_name_postgres
+      POSTGRES_PORT: 5432
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      project_name_postgres:
+        condition: service_healthy
+    networks:
+      - project_network
+
+  project_name_parser:
+    container_name: project_name_parser
+    hostname: project_name_parser
+    build:
+      context: .
+      dockerfile: news_parser/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - project_name_app
+    networks:
+      - project_network
+
+  project_name_postgres:
+    container_name: project_name_postgres
+    hostname: project_name_postgres
+    image: postgres:17.0-bullseye
+    env_file:
+      - .env
+    environment:
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    ports:
+      - "6543:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: always
+    networks:
+      - project_network
+
+
+volumes:
+  postgres_volume:
+
+networks:
+  project_network:
+    driver: bridge

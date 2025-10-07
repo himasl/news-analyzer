@@ -1,0 +1,12 @@
+httpx
+lxml
+beautifulsoup4
+sqlalchemy
+ruff
+fastapi[all]==0.116.1
+asyncpg==0.30.0
+sqlalchemy[asyncio]==2.0.43
+uvicorn[standard]==0.35.0
+python-jose==3.5.0
+bcrypt==4.3.0
+aiogram

@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "template application name"
+version = "0.1.0"
+description = ""
+authors = ["Bender Bending Rodriguez"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = { extras = ["all"], version = "^0.116.1" }
+asyncpg = "^0.30.0"
+sqlalchemy = { extras = ["asyncio"], version = "^2.0.43" }
+uvicorn = { extras = ["standard"], version = "^0.35.0" }
+python-jose = "^3.5.0"
+bcrypt = "^4.3.0"
+beautifulsoup4 = "*"
+ruff = '*'
+httpx = "*"
+lxml = "*"
+aiogram = '^3.0'
+
+[tool.poetry.group.dev.dependencies]
+blue = "^0.9.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.blue]
+line-length = 120
+
